@@ -1,0 +1,38 @@
+using UnityEngine;
+using UnityEngine.AI;
+
+[RequireComponent(typeof(NavMeshAgent))]
+public class Enemy : MonoBehaviour
+{
+    private NavMeshAgent pathFinder;
+
+    private void Start()
+    {
+        pathFinder = GetComponent<NavMeshAgent>();
+    }
+
+    public GameObject FindClosestEnemy()
+    {
+        GameObject[] possibleTargets;
+        possibleTargets = GameObject.FindGameObjectsWithTag("Target");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 currentPosition = transform.position;
+        foreach (GameObject i in possibleTargets)
+        {
+            Vector3 diff = i.transform.position - currentPosition;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = i;
+                distance = curDistance;
+            }
+        }
+        return closest;
+    }
+
+    private void FixedUpdate()
+    {
+        pathFinder.SetDestination(FindClosestEnemy().transform.position);
+    }
+}
