@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
 		Vector3 playerRotation = new Vector3(0f, playerRot, 0f) * camSensitivity;
 		this.gameObject.transform.Rotate(playerRotation);
 
-		//Rotate Camera
+		//Tilt Camera
 		float cameraRot = -Input.GetAxis("Mouse Y");
 		Vector3 cameraRotation = new Vector3(cameraRot, 0f, 0f) * camSensitivity;
 		cam.transform.Rotate(cameraRotation);
