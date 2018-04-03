@@ -2,15 +2,19 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+	private Rigidbody rb;
 	private Transform cam;
 	[SerializeField]
 	private float walkSpeed = 4.0f;
 	[SerializeField]
 	private float camSensitivity = 1.5f;
+	[SerializeField]
+	private float jumpForce = 5.0f;
 
 	private void Start()
 	{
 		//Get Components
+		rb = GetComponent<Rigidbody>();
 		cam = this.gameObject.transform.GetChild(0).GetComponent<Transform>();
 		Cursor.visible = false;
 	}
@@ -19,13 +23,22 @@ public class PlayerController : MonoBehaviour
 	{
 		//Move Player
 		transform.Translate(Input.GetAxis("Horizontal") * Time.fixedDeltaTime * walkSpeed, 0f, Input.GetAxis("Vertical") * Time.fixedDeltaTime * walkSpeed);
+
 		//Rotate Player
 		float playerRot = Input.GetAxis("Mouse X");
 		Vector3 playerRotation = new Vector3(0f, playerRot, 0f) * camSensitivity;
 		this.gameObject.transform.Rotate(playerRotation);
+
 		//Rotate Camera
 		float cameraRot = -Input.GetAxis("Mouse Y");
 		Vector3 cameraRotation = new Vector3(cameraRot, 0f, 0f) * camSensitivity;
 		cam.transform.Rotate(cameraRotation);
+
+		//Jump
+		Vector3 jump = new Vector3(0f, jumpForce, 0f);
+		if (Input.GetButtonDown("Jump"))
+		{
+			rb.velocity = jump;
+		}
 	}
 }
