@@ -2,29 +2,29 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody rb;
-    private Transform cam;
-    [SerializeField]
-    private float walkSpeed = 4.0f;
-    [SerializeField]
-    private float camSensitivity = 1.5f;
+	private Transform cam;
+	[SerializeField]
+	private float walkSpeed = 4.0f;
+	[SerializeField]
+	private float camSensitivity = 1.5f;
 
-    private void Start()
-    {
-        //Get Components
-        rb = GetComponent<Rigidbody>();
-        cam = this.gameObject.transform.GetChild(0).GetComponent<Transform>();
-    }
+	private void Start()
+	{
+		//Get Components
+		cam = this.gameObject.transform.GetChild(0).GetComponent<Transform>();
+	}
 
-    private void FixedUpdate()
-    {
-        //Move Player
-        transform.Translate(Input.GetAxis("Horizontal") * Time.fixedDeltaTime * walkSpeed, 0f, Input.GetAxis("Vertical") * Time.fixedDeltaTime * walkSpeed);
-        //Rotate Player
-        Vector3 rotation = new Vector3(0f, Input.GetAxis("Mouse X"), 0f) * camSensitivity;
-        rb.MoveRotation(rb.rotation * Quaternion.Euler(rotation));
-        //Rotate Camera
-        Vector3 camRotation = new Vector3(-Input.GetAxis("Mouse Y"), 0f, 0f) * camSensitivity;
-        cam.transform.Rotate(camRotation);
-    }
+	private void FixedUpdate()
+	{
+		//Move Player
+		transform.Translate(Input.GetAxis("Horizontal") * Time.fixedDeltaTime * walkSpeed, 0f, Input.GetAxis("Vertical") * Time.fixedDeltaTime * walkSpeed);
+		//Rotate Player
+		float playerRot = Input.GetAxis("Mouse X");
+		Vector3 playerRotation = new Vector3(0f, playerRot, 0f) * camSensitivity;
+		this.gameObject.transform.Rotate(playerRotation);
+		//Rotate Camera
+		float cameraRot = -Input.GetAxis("Mouse Y");
+		Vector3 cameraRotation = new Vector3(cameraRot, 0f, 0f) * camSensitivity;
+		cam.transform.Rotate(cameraRotation);
+	}
 }
