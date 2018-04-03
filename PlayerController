@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
 	{
 		//Get Components
 		cam = this.gameObject.transform.GetChild(0).GetComponent<Transform>();
+		Cursor.visible = false;
 	}
 
 	private void FixedUpdate()
